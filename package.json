@@ -1,0 +1,28 @@
+{
+  "name": "cthulhu-bot",
+  "version": "1.0.0",
+  "description": "A utilitarian and administration assistant for Discord.",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Spindlyskit/Cthulhu.git"
+  },
+  "author": "Spindlyskit",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Spindlyskit/Cthulhu/issues"
+  },
+  "homepage": "https://github.com/Spindlyskit/Cthulhu#readme",
+  "devDependencies": {
+    "ava": "^2.4.0",
+    "eslint": "^6.5.1",
+    "nodemon": "^1.19.3"
+  },
+  "dependencies": {
+    "colors": "^1.4.0",
+    "discord.js": "github:discordjs/discord.js"
+  }
+}

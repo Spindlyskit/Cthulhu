@@ -1,9 +1,10 @@
 {
-  "name": "cthulhu-bot",
+  "name": "cthulhu",
   "version": "1.0.0",
   "description": "A utilitarian and administration assistant for Discord.",
   "main": "./src/index.js",
   "scripts": {
+    "start": "nodemon .",
     "test": "ava"
   },
   "repository": {

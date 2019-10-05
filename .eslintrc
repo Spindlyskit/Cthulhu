@@ -73,7 +73,7 @@
 	"comma-style": "error",
 	"computed-property-spacing": "error",
 	"consistent-this": ["error", "$this"],
-	"eol-last": "error",
+	"eol-last": ["error", "always"],
 	"func-names": "error",
 	"func-name-matching": "error",
 	"func-style": ["error", "declaration", { "allowArrowFunctions": true }],

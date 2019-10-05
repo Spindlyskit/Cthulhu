@@ -1,0 +1,15 @@
+#!/bin/sh
+# This script starts a mongodb database in the root directory of the cthulhu project
+# It will look through parent directories to find a package.json
+# This is only for development use as running a local db is helpful in that case
+# For real production, the default data path of /data should be used
+# This probably won't work on windows systems - it has only been tested on dash shell
+while [ ! $(ls 'package.json' 2>/dev/null) ]; do
+	echo finding package
+	cd ..
+done
+data_exists=$(ls data 2>/dev/null)
+[ ! $data_exists ] && echo 'Data directory not found - creating' && mkdir data
+echo 'Starting database in 3 seconds...'
+sleep 3s
+mongod --dbpath ./data/

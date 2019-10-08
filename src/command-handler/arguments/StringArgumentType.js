@@ -16,6 +16,11 @@ class StringArgumentType extends Argument {
 			return `Please keep ${arg.label} below or exactly ${arg.max} characters`;
 		}
 
+		return this.baseValidate(val);
+	}
+
+	// Any string is obviously a valid string
+	baseValidate() {
 		return true;
 	}
 
@@ -23,6 +28,11 @@ class StringArgumentType extends Argument {
 	// This method is so complex no mortal should attempt to comprehend it
 	parse(val) {
 		return val;
+	}
+
+	// Check if a string could be the start of a string
+	isPossibleStart() {
+		return true;
 	}
 }
 

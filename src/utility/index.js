@@ -11,6 +11,9 @@ module.exports.toTitleCase = str => str.replace(
 	txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
 );
 
+// Prefix a word with the correct indefinite article
+module.exports.indefiniteArticle = str => `${str.match('^[aieouAIEOU].*') ? 'an' : 'a'} ${str}`;
+
 // Check if a number is a valid level
 module.exports.isLevel = i => i >= 0 && i <= 100;
 

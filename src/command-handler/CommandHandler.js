@@ -52,12 +52,13 @@ class CommandHandler {
 					msg.reject('This should never occur');
 					return false;
 				case -1:
-					msg.command.run(msg);
+					msg.run();
 					return true;
-				default:
+				case 0:
 					this.logger.warn(`Command completed before execution (status ${status}) - this should be impossible`);
 					msg.reject('This should never occur');
 					return false;
+				// If status > 0 then the command was rejected by the argument parser
 			}
 		}
 		return false;

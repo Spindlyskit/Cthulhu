@@ -10,10 +10,16 @@ class Argument {
 	}
 
 	// Check if an argument can be parsed from the given string
-	// Takes a string and a command's arg options
+	// Takes a string, a command's arg options and a command message
 	// Returns a boolean or a string error message
-	validate() {
-		throw new Error('Argument has no validate function');
+	validate(val, arg, msg) {
+		return this.baseValidate(val, msg);
+	}
+
+	// Check if a given string is a valid argument of this type
+	// Takes a string and a message
+	baseValidate() {
+		throw new Error('Argument has no base validate function');
 	}
 
 	// Parses an argument from the given string
@@ -21,6 +27,12 @@ class Argument {
 	// Returns the parsed value
 	parse() {
 		throw new Error('Argument has no parse function');
+	}
+
+	// Check if a string could be the start of the argument
+	// Only takes a string
+	isPossibleStart() {
+		return true;
 	}
 }
 

@@ -15,6 +15,7 @@ class Command {
 			description: '',
 			module: 'commands',
 			aliases: [],
+			args: [],
 			throttling: null,
 		}, options);
 		this._validateOptions(options);

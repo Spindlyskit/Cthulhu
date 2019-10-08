@@ -1,4 +1,5 @@
 const { oneline } = require('common-tags');
+const ArgumentString = require('./ArgumentString');
 
 // CommandMessage represents a message which triggers a command
 class CommandMessage {
@@ -24,6 +25,9 @@ class CommandMessage {
 		//  4  - Complete, execution error (run function threw error)
 		this._status = -2;
 
+		// The arguments of this command message
+		this.arguments = null;
+
 		// The command that this message represents
 		this.command = null;
 		this._parseCommand(prefix);
@@ -42,6 +46,12 @@ class CommandMessage {
 		this.channel.send(message, options);
 		if (status < 1) this.logger.warn('Rejecting with success status');
 		this.setStatus(status);
+	}
+
+	// Run the command
+	run() {
+		if (!this.command || !this.arguments) return this.reject('An internal error occured');
+		this.command.run(this, this.arguments.args);
 	}
 
 	// Set the command status
@@ -83,6 +93,7 @@ class CommandMessage {
 		switch (command.registryType) {
 			case 0:
 				this.setStatus(-1);
+				this.arguments = new ArgumentString(this, content.join(' '), command.args);
 				this.command = command;
 				break;
 			case 1:
@@ -94,6 +105,8 @@ class CommandMessage {
 	/*
 	 * Shortcuts because I'm lazy
 	 */
+	say(...msg) { return this.message.channel.send(...msg); }
+
 	get author() { return this.message.author; }
 	get channel() { return this.message.channel; }
 	get completed() { return this._status >= 0; }
@@ -101,7 +114,6 @@ class CommandMessage {
 	get failed() { return this._status > 0; }
 	get guild() { return this.message.guild; }
 	get passed() { return this._status === 0; }
-	get say() { return this.message.channel.send; }
 }
 
 module.exports = CommandMessage;

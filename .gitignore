@@ -1,6 +1,10 @@
 # Modules
 node_modules/
 
+# Editor specific
+.vim/
+***/Session.vim
+
 # Private
 config/*.json
 data/

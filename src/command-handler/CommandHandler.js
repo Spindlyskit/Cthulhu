@@ -2,6 +2,7 @@
 // It also provides some basic commands such as ping
 const path = require('path');
 require('colors');
+const { Collection } = require('discord.js');
 const Argument = require('./Argument');
 const Command = require('./Command');
 const CommandMessage = require('./CommandMessage');
@@ -31,6 +32,11 @@ class CommandHandler {
 		// Command and argument registries
 		this.commands = new Registry(this.client, Command);
 		this.arguments = new Registry(this.client, Argument);
+
+		// Valid command modules
+		this.modules = new Collection([
+			['util', 'Utilities'],
+		]);
 	}
 
 	// Build a regex prefix from a raw string

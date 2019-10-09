@@ -27,6 +27,10 @@ class CommandHandler {
 
 		// Regex used by the argument parser
 		this.argumentRegex = /\s*(?:(["'])([^]*?)\1|(\S+))\s*/g;
+
+		// Command and argument registries
+		this.commands = new Registry(this.client, Command);
+		this.arguments = new Registry(this.client, Argument);
 	}
 
 	// Build a regex prefix from a raw string
@@ -52,6 +56,7 @@ class CommandHandler {
 					msg.reject('This should never occur');
 					return false;
 				case -1:
+					this.logger.debug(`Running command ${msg.command.display} (${msg.content})`);
 					msg.run();
 					return true;
 				case 0:
@@ -71,9 +76,7 @@ class CommandHandler {
 
 	// Setup registries with default commands and argument types
 	loadDefaults() {
-		this.commands = new Registry(this.client, Command);
 		this.commands.registerDirectory(path.join(__dirname, './commands'));
-		this.arguments = new Registry(this.client, Argument);
 		this.arguments.registerDirectory(path.join(__dirname, './arguments'));
 	}
 
@@ -97,7 +100,7 @@ class CommandHandler {
 			this.logger.warn('Bot has no owners');
 		}
 
-		this.logger.debug('Options validated');
+		this.logger.debug('Command handler options validated');
 	}
 }
 

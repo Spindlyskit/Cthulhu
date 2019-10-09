@@ -19,6 +19,8 @@ class Command {
 			throttling: null,
 		}, options);
 		this._validateOptions(options);
+
+		this.logger.info(`Created command ${this.display} (${this.name})`);
 	}
 
 	// Abstract method to run the command
@@ -59,7 +61,7 @@ class Command {
 			this.logger.fatal(`${this.name} level must be 0 <= level <= 100`, JSON.stringify(level));
 		}
 		this.level = level;
-		//Description
+		// Description
 		const description = options.description;
 		if (typeof description !== 'string') {
 			this.logger.fatal(`${this.name} description must be a string`, JSON.stringify(description));
@@ -86,6 +88,7 @@ class Command {
 		const throttling = options.throttling;
 		// TODO: Validate this
 		this.throttling = throttling;
+		this.logger.trace(`${this.name}: options validated`);
 	}
 }
 

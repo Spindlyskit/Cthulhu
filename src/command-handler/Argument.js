@@ -7,6 +7,8 @@ class Argument {
 
 		// The name of the argument
 		this.name = name;
+
+		commandHandler.logger.info(`Created argument type ${name}`);
 	}
 
 	// Check if an argument can be parsed from the given string

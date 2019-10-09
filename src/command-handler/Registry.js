@@ -43,7 +43,7 @@ class Registry extends Collection {
 			this.client.logger.warn(`A registry attempted to load invalid class from file ${file}`);
 			return false;
 		}
-		this.client.logger.info(`Registered ${file}`);
+		this.client.logger.debug(`Registered ${file}`);
 		return true;
 	}
 
@@ -59,6 +59,7 @@ class Registry extends Collection {
 			this.client.logger.warn(`A registry failed to register some files in ${dir}`);
 			return false;
 		}
+		this.client.logger.debug(`Registered ${dir}`);
 		return true;
 	}
 }

@@ -14,10 +14,7 @@ module.exports = class Logger {
 		//  3 - Warning logs
 		//  4 - Error logs
 		//  >4 - Fatal logs
-		this.logLevel = 2;
-		this.trace(`Log level ${this.logLevel}`);
-
-		this.info('Logger started');
+		this.logLevel = process.env.LOG_LEVEL || 2;
 	}
 
 	// Log a fatal error and kill the process

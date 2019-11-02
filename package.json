@@ -5,7 +5,7 @@
   "main": "./src/index.js",
   "scripts": {
     "start": "LOG_LEVEL=1 npx nodemon .",
-    "test": "npx ava"
+    "test": "npx eslint src && npx ava"
   },
   "repository": {
     "type": "git",

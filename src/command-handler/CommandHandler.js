@@ -61,10 +61,16 @@ class CommandHandler {
 					this.logger.warn('Command parsed but did not change status - this should be impossible');
 					msg.reject('This should never occur');
 					return false;
-				case -1:
+				case -1: {
 					this.logger.debug(`Running command ${msg.command.display} (${msg.content})`);
-					msg.run();
-					return true;
+					const hasPermission = msg.command.hasPermission(msg.author, msg.guild || null);
+					if (hasPermission === true) {
+						msg.run();
+						return true;
+					}
+					msg.reject(typeof hasPermission === 'string' ? hasPermission : 'You do not have permission to run that command');
+					return false;
+				}
 				case 0:
 					this.logger.warn(`Command completed before execution (status ${status}) - this should be impossible`);
 					msg.reject('This should never occur');

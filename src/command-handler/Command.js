@@ -12,6 +12,7 @@ class Command {
 			display: util.toTitleCase(name),
 			examples: options.args ? null : [options.name],
 			level: 0,
+			ownerOnly: false,
 			description: '',
 			module: 'commands',
 			aliases: [],
@@ -21,6 +22,16 @@ class Command {
 		this._validateOptions(options);
 
 		this.logger.info(`Created command ${this.display} (${this.name})`);
+	}
+
+	// Check if a given user can run the command
+	// If a guild is provided, the members permission level is checked
+	hasPermission(user, guild) {
+		// Only bot owners can use owner only commands
+		if (this.ownerOnly && !this.commandHandler.isOwner(user.id)) {
+			return false;
+		}
+		return true;
 	}
 
 	// Abstract method to run the command
@@ -61,6 +72,12 @@ class Command {
 			this.logger.fatal(`${this.name} level must be 0 <= level <= 100`, JSON.stringify(level));
 		}
 		this.level = level;
+		// Owner only
+		const ownerOnly = options.ownerOnly;
+		if (typeof ownerOnly !== 'boolean' && ownerOnly !== null) {
+			this.logger.fatal(`${this.name} ownerOnly must be a boolean`, JSON.stringify(ownerOnly));
+		}
+		this.ownerOnly = ownerOnly;
 		// Description
 		const description = options.description;
 		if (typeof description !== 'string') {

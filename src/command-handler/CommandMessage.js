@@ -1,4 +1,4 @@
-const { oneline } = require('common-tags');
+const { oneLine } = require('common-tags');
 const ArgumentString = require('./ArgumentString');
 
 // CommandMessage represents a message which triggers a command
@@ -46,7 +46,7 @@ class CommandMessage {
 		if (this.completed) return;
 		this.channel.send(message, options);
 		if (status < 1) this.logger.warn('Rejecting with success status');
-		this.logger.debug(oneline`Command ${this.command.name} (content: "${this.content}")
+		this.logger.debug(oneLine`Command ${this.command.name} (content: "${this.content}")
 			rejected (code: ${status}) with message ${message}`);
 		this.setStatus(status);
 	}
@@ -64,7 +64,7 @@ class CommandMessage {
 			return;
 		}
 		if (this.completed) {
-			this.logger.warn(oneline`Attempt to change status of completed command message
+			this.logger.warn(oneLine`Attempt to change status of completed command message
 			(status ${this._status})
 			to ${newStatus}`);
 			return;
@@ -84,8 +84,9 @@ class CommandMessage {
 	// Parse a command from the message's content
 	_parseCommand(prefix) {
 		// Remove the command prefix
-		const content = this.content.substr(this.content.match(prefix)[1].length).split(' ');
-		const commandName = content.shift().toLowerCase();
+		let content = this.content.substr(this.content.match(prefix)[1].length);
+		const commandName = content.split(/\s/).shift().toLowerCase();
+		content = content.substr(commandName.length);
 
 		// Get the command from the registry
 		const command = this.commandHandler.commands.has(commandName) ?
@@ -96,8 +97,8 @@ class CommandMessage {
 		switch (command.registryType) {
 			case 0:
 				this.setStatus(-1);
-				this.arguments = new ArgumentString(this, content.join(' '), command.args);
 				this.command = command;
+				this.arguments = new ArgumentString(this, content, command.args);
 				break;
 			case 1:
 				// Handle command groups here

@@ -34,6 +34,15 @@ class HelpCommand extends Command {
 	}).join('')}
 		`;
 	}
+
+	// Generate text showing specific information about a single command
+	generateHelpFor(msg, command) {
+		const client = msg.client;
+		const commandHandler = client.commandHandler;
+		return stripIndents`
+		
+		`;
+	}
 }
 
 module.exports = HelpCommand;

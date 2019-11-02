@@ -2,6 +2,12 @@
 const path = require('path');
 const fs = require('fs');
 
+// Prevent mentions in a message by inserting a zero width character after @
+module.exports.cleanMentions = text => {
+	if (typeof text === 'string') return text.replace(/`/g, `\`${String.fromCharCode(8203)}`).replace(/@/g, `@${String.fromCharCode(8203)}`);
+	else return text;
+};
+
 // Check if a string is a discord id
 module.exports.isId = id => /^[0-9]*$/.test(id);
 

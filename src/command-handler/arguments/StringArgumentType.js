@@ -2,8 +2,8 @@ const Argument = require('../Argument');
 
 // StringArgumentType represents a string of characters
 class StringArgumentType extends Argument {
-	constructor(commandHandler) {
-		super(commandHandler, 'string');
+	constructor(client) {
+		super(client, 'string');
 	}
 
 	// Validating a string is simple, this mainly handles config options

@@ -1,14 +1,15 @@
 // Argument is the base class for all argument types
 // It provides methods to validate and parse relevant arguments
 class Argument {
-	constructor(commandHandler, name) {
-		// The commandHandler that instantiated this argument
-		this.commandHandler = commandHandler;
+	constructor(client, name) {
+		// The client that instantiated this argument
+		this.client = client;
+		this.commandHandler = client.commandHandler;
 
 		// The name of the argument
 		this.name = name;
 
-		commandHandler.logger.info(`Created argument type ${name}`);
+		client.logger.info(`Created argument type ${name}`);
 	}
 
 	// Check if an argument can be parsed from the given string

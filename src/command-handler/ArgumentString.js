@@ -40,7 +40,8 @@ class ArgumentString {
 		const rawArgs = this._args;
 		const parsedArgs = {};
 
-		commandArgs.forEach((arg, i) => {
+		for (let i = 0; i < commandArgs.length; i++) {
+			const arg = commandArgs[i];
 			const label = arg.label || arg.name;
 			const type = this.commandHandler.arguments.get(arg.type);
 			if (!type) {
@@ -58,8 +59,9 @@ class ArgumentString {
 
 			// If we don't get an arg, try to use the default, otherwise reject
 			if (!rawArg) {
-				if (arg.default) {
-					rawArg = arg.default;
+				if (arg.default !== undefined) {
+					parsedArgs[arg.name] = arg.default;
+					break;
 				} else {
 					return this.msg.reject(`Please provide ${util.indefiniteArticle(arg.type)} for ${label}`);
 				}
@@ -70,7 +72,7 @@ class ArgumentString {
 			}
 			const parsed = type.parse(rawArg);
 			parsedArgs[arg.name] = parsed;
-		});
+		}
 
 		return parsedArgs;
 	}

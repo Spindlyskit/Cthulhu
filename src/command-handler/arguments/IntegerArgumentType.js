@@ -2,8 +2,8 @@ const Argument = require('../Argument');
 
 // IntegerArgumentType represents a integer of characters
 class IntegerArgumentType extends Argument {
-	constructor(commandHandler) {
-		super(commandHandler, 'integer');
+	constructor(client) {
+		super(client, 'integer');
 	}
 
 	// Check if a string can be parsed into an int

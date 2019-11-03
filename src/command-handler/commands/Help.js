@@ -1,18 +1,29 @@
 // Help displays information about all of the bots commands
 const { stripIndents } = require('common-tags');
 const Command = require('../Command');
+const { format } = require('../../utility/chat');
 
 class HelpCommand extends Command {
 	constructor(client) {
 		super(client, 'help', {
 			description: 'Display information about available commands',
 			module: 'util',
-			// This should take an optional command as an argument
+			args: [
+				{
+					name: 'command',
+					type: 'command',
+					default: null,
+				},
+			],
 		});
 	}
 
-	run(msg) {
-		msg.resolve(this.generateHelpText(msg));
+	run(msg, { command }) {
+		if (command !== null) {
+			msg.resolve(this.generateHelpFor(msg, command));
+		} else {
+			msg.resolve(this.generateHelpText(msg));
+		}
 	}
 
 	// Generate text showing the name and description of available commands
@@ -37,10 +48,14 @@ class HelpCommand extends Command {
 
 	// Generate text showing specific information about a single command
 	generateHelpFor(msg, command) {
-		const client = msg.client;
-		const commandHandler = client.commandHandler;
 		return stripIndents`
-		
+		${format.bold(format.underline(command.name))} ${command.description}
+
+		${format.bold('Module:')} ${format.code(command.module || 'unknown')}
+		${format.bold('Format:')} ${format.code(command.name + command.format)}
+		${format.bold('Aliases:')} ${format.code(command.aliases.length > 0 ? command.aliases.join(', ') : 'None')}
+		${format.bold('Examples:')} ${format.codeblock(command.examples ? command.examples.join('\n') : 'None', 'sh')}
+		${command.ownerOnly ? format.bold('Bot admin only!') : ''}
 		`;
 	}
 }

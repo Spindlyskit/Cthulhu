@@ -44,6 +44,18 @@ class Command {
 		return this.display;
 	}
 
+	// Get the commands syntax in a human readable format
+	get format() {
+		let formatString = '';
+		if (this.args) {
+			this.args.forEach(arg => {
+				const bracePair = arg.default !== undefined ? '[]' : '<>';
+				formatString += ` ${bracePair[0]}${arg.name}${bracePair[1]}`;
+			});
+		}
+		return formatString;
+	}
+
 	// Get's the registry for this object to be put in
 	//  0 - Command
 	//  1 - Command Group

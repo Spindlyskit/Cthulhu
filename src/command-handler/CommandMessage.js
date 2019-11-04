@@ -53,8 +53,13 @@ class CommandMessage {
 
 	// Run the command
 	run() {
-		if (!this.command || !this.arguments) return this.reject('An internal error occured');
-		this.command.run(this, this.arguments.args);
+		if (!this.command || !this.arguments) return this.reject('An internal error occured', 4);
+		try {
+			this.command.run(this, this.arguments.args);
+		} catch (e) {
+			this.reject('An internal error occured', 4);
+			this.logger.error(`An error occured in command ${this.command.name}`, e);
+		}
 	}
 
 	// Set the command status

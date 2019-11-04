@@ -23,7 +23,7 @@ const format = {
 	underline: text => `__${escape(text, '_')}__`,
 	codeblock: (text, lang = '') => stripIndents`\`\`\`${lang}
 	${text}
-	\`\`\``
+	\`\`\``,
 };
 exports.format = format;
 

@@ -7,13 +7,18 @@ const { Collection } = require('discord.js');
 const util = require('../utility');
 
 class Registry extends Collection {
-	constructor(client, holds) {
+	constructor(client, holds, postRegister = null) {
 		super();
 		this.client = client;
 
 		// The type of object this registry can hold
 		// All entries must extend this object
 		this.holds = holds;
+
+		// A fuction that takes a name and an instace of holds
+		// Run after a new object is registered
+		// Optional
+		this.postRegister = postRegister;
 	}
 
 	// Add an object into the registery
@@ -33,6 +38,7 @@ class Registry extends Collection {
 		}
 		const name = object.name;
 		this.set(name, object);
+		if (this.postRegister) this.postRegister(name, object);
 		return true;
 	}
 

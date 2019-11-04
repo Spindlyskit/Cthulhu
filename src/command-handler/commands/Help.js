@@ -19,10 +19,11 @@ class HelpCommand extends Command {
 	}
 
 	run(msg, { command }) {
+		const helpProvider = msg.commandHandler.helpProvider;
 		if (command !== null) {
-			msg.resolve(this.generateHelpFor(msg, command));
+			msg.resolve(helpProvider.getHelpFor(command));
 		} else {
-			msg.resolve(this.generateHelpText(msg));
+			msg.resolve(helpProvider.getGeneralHelp());
 		}
 	}
 
@@ -30,20 +31,6 @@ class HelpCommand extends Command {
 	generateHelpText(msg) {
 		const client = msg.client;
 		const commandHandler = client.commandHandler;
-		return stripIndents`
-		To run a command in any server, use \`@${client.user.tag} command\`. For example, \`@${client.user.tag} help\`.
-
-		Use \`help <\Command>\` to view detailed information about a specified command.
-		${commandHandler.modules.keyArray().map(id => {
-		const name = commandHandler.modules.get(id);
-		const commands = commandHandler.commands.filter(e => e.module === id);
-		return `
-			__${name}__
-			${commands.map(e => `**${e.name}:** ${e.description}`
-	).join('\n')}
-			`;
-	}).join('')}
-		`;
 	}
 
 	// Generate text showing specific information about a single command

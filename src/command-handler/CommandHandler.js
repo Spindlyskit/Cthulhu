@@ -6,6 +6,7 @@ const { Collection } = require('discord.js');
 const Argument = require('./Argument');
 const Command = require('./Command');
 const CommandMessage = require('./CommandMessage');
+const HelpProvider = require('./HelpProvider');
 const Logger = require('../Logger');
 const Registry = require('./Registry');
 const util = require('../utility');
@@ -29,8 +30,15 @@ class CommandHandler {
 		// Regex used by the argument parser
 		this.argumentRegex = /\s*(?:(["'])([^]*?)\1|(\S+))\s*/g;
 
+		// Help provider
+		this.helpProvider = new HelpProvider(this);
+
 		// Command and argument registries
-		this.commands = new Registry(this.client, Command);
+		this.commands = new Registry(this.client, Command, () => {
+			if (this.helpProvider.hasGeneralHelpCache()) {
+				this.helpProvider.getGeneralHelp(true);
+			}
+		});
 		this.arguments = new Registry(this.client, Argument);
 
 		// Valid command modules

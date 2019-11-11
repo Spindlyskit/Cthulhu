@@ -36,19 +36,21 @@ class CommandMessage {
 	// Complete the command with a success message and exit status 0
 	resolve(message, options) {
 		if (this.completed) return;
-		this.channel.send(message, options);
+		const sentMessage = this.channel.send(message, options);
 		this.logger.debug(`Command ${this.command.name} (content: "${this.content}") resolved with message ${message}`);
 		this.setStatus(0);
+		return sentMessage;
 	}
 
 	// Complete the command with an error message and an erroneous exit status
 	reject(message, status = 1, options) {
 		if (this.completed) return;
-		this.channel.send(message, options);
+		const sentMessage = this.channel.send(message, options);
 		if (status < 1) this.logger.warn('Rejecting with success status');
 		this.logger.debug(oneLine`Command ${this.command.name} (content: "${this.content}")
 			rejected (code: ${status}) with message ${message}`);
 		this.setStatus(status);
+		return sentMessage;
 	}
 
 	// Run the command
